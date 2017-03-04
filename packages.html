@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="public/css/style.css">
 </head>
 <body>
+<div class="background-decoration-left"></div>
+<div class="background-decoration-right"></div>
 <header class="usual-type">
     <a href="#"><div class="logo-usual"></div></a>
     <div class="header-left-side">
@@ -38,13 +40,24 @@
 
 <div class="content">
     <div class="carcass">
-        <div class="background-decoration-left"></div>
-        <div class="background-decoration-right"></div>
         <div class="block-title">
             <div class="title-text">Start Up <span>пакеты</span></div>
             <div class="title-bottom-border"></div>
         </div>
-
+        <div class="tabs-pagination">
+            <ul>
+                <li><a href="#premium">Премиум</a></li>
+                <li><a href="#medium">Медиум</a></li>
+                <li><a href="#">Оптимум</a></li>
+                <li><a href="#">Базовый</a></li>
+                <li><a href="#">Базовый - Outdoor</a></li>
+                <li><a href="#">Базовый - Outdoor +</a></li>
+                <li><a href="#">Медиа</a></li>
+                <li><a href="#">Медиа +</a></li>
+                <li><a href="#">Акционный</a></li>
+            </ul>
+            <div class="pagination-bar" id="pagination-bar"></div>
+        </div>
         <div class="packages-page-grid">
             <aside class="left">
                 <img src="public/images/special-offer-box.png">
@@ -53,7 +66,71 @@
                 <p class="description">
                     Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo.
                 </p>
-
+                <div class="packages-content">
+                    <div class="span">Виды услуг в пакете</div>
+                    <div class="packages-content-grid">
+                        <div id="premium" class="inside-grid">
+                            <ul>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/TV-icon.png"></div>
+                                    <div class="title">Телевидиние</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/radio-icon.png"></div>
+                                    <div class="title">Радио</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/SMM-icon.png"></div>
+                                    <div class="title">SMM</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/internet-icon.png"></div>
+                                    <div class="title">Интернет</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/lightbox-icon.png"></div>
+                                    <div class="title">Лайтбокс</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/print-icon.png"></div>
+                                    <div class="title">Полиграфия</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/bus-stop-icon.png"></div>
+                                    <div class="title">Остановки</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="medium" class="inside-grid">
+                            <ul>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/radio-icon.png"></div>
+                                    <div class="title">Радио</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/SMM-icon.png"></div>
+                                    <div class="title">SMM</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/internet-icon.png"></div>
+                                    <div class="title">Интернет</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/lightbox-icon.png"></div>
+                                    <div class="title">Лайтбокс</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/print-icon.png"></div>
+                                    <div class="title">Полиграфия</div>
+                                </li>
+                                <li>
+                                    <div class="icon"><img src="public/images/packages/bus-stop-icon.png"></div>
+                                    <div class="title">Остановки</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </aside>
         </div>
     </div>
@@ -90,5 +167,72 @@
 </footer>
 
 <script src="public/js/jquery-3.1.0.min.js"></script>
+<script>
+    var tabsParent = $('.tabs-pagination').first();
+    var tabs = $('.tabs-pagination ul li');
+    var tabPagination = $('#pagination-bar');
+
+    $(document).ready(function() {
+        function initTabs() {
+            $(tabs).each(function(i, obj) {
+                if(i === 0) {
+                    $(obj).addClass('active');
+                    $($('a', $(obj)).attr('href')).fadeIn('fast');
+                } else {
+                    $(obj).attr('class', '');
+                    $(obj).removeClass('active');
+                    var target = $('a', $(obj)).attr('href');
+                    if (target !== '#') $(target).fadeOut('fast');
+                }
+            });
+            var firstTab = $(tabs).first();
+            $(tabPagination).animate({
+                left: $(firstTab).offset().left - $(tabsParent).offset().left,
+                width: $(firstTab).width()
+            }, 500);
+        }
+
+        initTabs();
+
+        function openTab(target) {
+            $('.inside-grid').each(function (i, obj) {
+                $(obj).fadeOut('fast', function() {
+                    if($(obj).attr('id') == target) {
+                        $(obj).fadeIn('slow');
+                    }
+                });
+            });
+        }
+
+        function setActiveToTab(tab) {
+            $(tabs).each(function(i, obj) {
+                if($(obj).find('a').attr('href') === tab) {
+                    $(obj).attr('class', 'active');
+                } else {
+                    $(obj).removeClass('active');
+                }
+            });
+        }
+
+        $('a', $(tabs)).each(function (i, obj) {
+            $(obj).on('click', function(event) {
+                event.preventDefault();
+
+                var target = $(this).attr('href').replace('#', '');
+                var tab = $(this).attr('href');
+                var offset = $(obj).offset().left - $(tabsParent).offset().left;
+                var width = $(obj).width();
+
+                $(tabPagination).animate({
+                    left: offset,
+                    width: width
+                }, 500);
+
+                openTab(target);
+                setActiveToTab(tab);
+            });
+        });
+    });
+</script>
 </body>
 </html>
